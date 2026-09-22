@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="5515">
+<title>5515 언제 와</title>
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#2F3230">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#2F3230; --face:#FFFFFF; --rim:#3A3D3B; --num:#3A3D3B; --hand:#3A3D3B; --faint:#B5B8B3;
+  --a:#4A9A52; --b:#E39A2D; --sec:#D64545; --warn:#E0493A; --warn-text:#C23A2C;
+  --line:#E1E2DC; --text:#F1F2EF; --sub:#B9BDB7; --btext:#A8680F; --link:#9ED3A4;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#232624; --face:#202321; } }
+:root[data-theme="dark"]{ --bg:#232624; --face:#202321; }
+:root[data-view="settings"]{--line:#474B48;--rim:#9ED3A4;--face:#2F3230;--num:#F1F2EF}
+
+:root[data-stop="home"]{--bg:#ECF3EA;--face:#FFFFFF;--rim:#2E5E3A;--num:#2E5E3A;--hand:#2E5E3A;--faint:#A9BAA9;--a:#3E9B4F;--line:#D5E2D2;--text:#213326;--sub:#5C6E5F;--link:#2E7D3F}
+:root[data-stop="snu"]{--bg:#EAF0F9;--face:#FFFFFF;--rim:#243B78;--num:#243B78;--hand:#243B78;--faint:#A7B3CC;--a:#2F6BD8;--line:#D4DDEE;--text:#1E2A45;--sub:#5A6680;--link:#2E5BB8}
+:root[data-stop="gosi"]{--bg:#F1ECF7;--face:#FFFFFF;--rim:#4B2E83;--num:#4B2E83;--hand:#4B2E83;--faint:#B7A9CF;--a:#7B4FC9;--line:#E0D7EE;--text:#2A1E45;--sub:#665A80;--link:#6A3FB8}
+@media (prefers-color-scheme: dark){
+  :root[data-stop="home"]:not([data-theme="light"]){--bg:#121A14;--face:#1B241D;--rim:#7FB08A;--num:#D7E7DA;--hand:#D7E7DA;--faint:#5E7362;--a:#5BBF6C;--line:#26352A;--text:#E4EFE6;--sub:#9DB3A1;--link:#7FCB8C}
+  :root[data-stop="snu"]:not([data-theme="light"]){--bg:#111626;--face:#1A2135;--rim:#8FA7E0;--num:#DCE4F7;--hand:#DCE4F7;--faint:#5C6887;--a:#6F9BF0;--line:#252F4A;--text:#E3E9F7;--sub:#9DA9C6;--link:#8FB0F5}
+  :root[data-stop="gosi"]:not([data-theme="light"]){--bg:#17121F;--face:#221A2E;--rim:#B39AE6;--num:#E6DDF7;--hand:#E6DDF7;--faint:#6C5F85;--a:#A07FE8;--line:#2F2640;--text:#EDE7F8;--sub:#AA9FC4;--link:#B99CF0}
+}
+:root[data-theme="dark"][data-stop="home"]{--bg:#121A14;--face:#1B241D;--rim:#7FB08A;--num:#D7E7DA;--hand:#D7E7DA;--faint:#5E7362;--a:#5BBF6C;--line:#26352A;--text:#E4EFE6;--sub:#9DB3A1;--link:#7FCB8C}
+:root[data-theme="dark"][data-stop="snu"]{--bg:#111626;--face:#1A2135;--rim:#8FA7E0;--num:#DCE4F7;--hand:#DCE4F7;--faint:#5C6887;--a:#6F9BF0;--line:#252F4A;--text:#E3E9F7;--sub:#9DA9C6;--link:#8FB0F5}
+:root[data-theme="dark"][data-stop="gosi"]{--bg:#17121F;--face:#221A2E;--rim:#B39AE6;--num:#E6DDF7;--hand:#E6DDF7;--faint:#6C5F85;--a:#A07FE8;--line:#2F2640;--text:#EDE7F8;--sub:#AA9FC4;--link:#B99CF0}
+
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);
+  font-family:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  -webkit-font-smoothing:antialiased}
+main{max-width:460px;margin:0 auto;padding:28px 22px 32px}
+.top{display:flex;justify-content:space-between;align-items:center;margin:10px 0 34px}
+.route{display:flex;align-items:baseline;gap:14px}
+.plate{font-family:Jost,sans-serif;font-weight:300;font-size:44px;letter-spacing:.04em;line-height:1}
+.route p{margin:0;color:var(--sub);font-size:15px}
+.gear{border:1.5px solid #5A5E5B;background:none;color:var(--text);border-radius:12px;min-height:44px;
+  padding:0 14px;font:inherit;font-size:15px;cursor:pointer}
+.pick{display:grid;gap:14px}
+.stop{display:block;width:100%;text-align:left;border:1.5px solid;border-radius:22px;padding:24px 22px;font:inherit;cursor:pointer}
+.stop strong{display:block;font-size:32px;font-weight:400;letter-spacing:-.01em;line-height:1.2}
+.stop span{display:block;margin-top:6px;font-size:14px}
+.stop[data-stop="home"]{background:#E3EFE0;border-color:#9CC3A0;color:#213326}
+.stop[data-stop="home"] span{color:#4C6650}
+.stop[data-stop="snu"]{background:#E1E9F7;border-color:#9DB2DE;color:#1E2A45}
+.stop[data-stop="snu"] span{color:#4E5C7C}
+.stop[data-stop="gosi"]{background:#ECE3F7;border-color:#BBA3E0;color:#2A1E45}
+.stop[data-stop="gosi"] span{color:#5E5078}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .stop[data-stop="home"]{background:#1B2A1E;border-color:#3F6A48;color:#E4EFE6}
+  :root:not([data-theme="light"]) .stop[data-stop="home"] span{color:#9DB3A1}
+  :root:not([data-theme="light"]) .stop[data-stop="snu"]{background:#1A2238;border-color:#3E5591;color:#E3E9F7}
+  :root:not([data-theme="light"]) .stop[data-stop="snu"] span{color:#9DA9C6}
+  :root:not([data-theme="light"]) .stop[data-stop="gosi"]{background:#241B33;border-color:#5B4589;color:#EDE7F8}
+  :root:not([data-theme="light"]) .stop[data-stop="gosi"] span{color:#AA9FC4}
+}
+.stop:focus-visible,.back:focus-visible,.gear:focus-visible{outline:3px solid #9ED3A4;outline-offset:3px}
+.back{border:none;background:none;color:var(--link);font:inherit;font-size:16px;font-weight:600;
+  padding:10px 0;min-height:44px;cursor:pointer}
+.where{font-size:28px;font-weight:500;margin:6px 0 0}
+.daytype{display:inline-block;margin:10px 0 0;font-size:13px;color:var(--link);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.where-sub{color:var(--sub);font-size:15px;margin:4px 0 0}
+.clock{display:flex;justify-content:center;margin:26px 0 22px}
+.clock svg{width:min(310px,82vw);height:auto}
+.row{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;gap:12px;
+  padding:12px 0;border-top:1px solid var(--line)}
+.dot{width:22px;height:22px;border-radius:50%;color:#fff;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center}
+.t{font-family:Jost,sans-serif;font-size:26px;font-variant-numeric:tabular-nums}
+.bb{font-size:14px;font-weight:600;color:var(--btext)}
+.chk{font-size:12px;color:var(--a);margin-left:6px;font-family:Jost,sans-serif}
+.left{font-size:16px;color:var(--sub)}
+.left.warn{color:var(--warn-text);font-weight:600}
+.empty{padding:16px 0;border-top:1px solid var(--line);color:var(--sub);font-size:17px;line-height:1.5}
+.note{color:var(--sub);font-size:13px;margin-top:16px;line-height:1.5}
+.fixbar{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;min-height:48px;border-radius:14px;border:1.5px solid var(--rim);background:var(--face);color:var(--num);
+  font:inherit;font-size:16px;font-weight:500;cursor:pointer}
+.btn.primary{background:var(--rim);color:var(--face)}
+.btn:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.ask{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--face)}
+.ask p{margin:0 0 10px;font-size:15px;color:var(--num)}
+.toast{margin-top:10px;font-size:14px;color:var(--link);min-height:20px}
+.sh{font-size:26px;font-weight:500;margin:6px 0 4px}
+.ssub{color:var(--sub);font-size:14px;margin:0 0 18px;line-height:1.5}
+.logrow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.logrow .lt{font-size:16px}
+.logrow .ld{font-size:13px;color:var(--sub);margin-top:2px}
+.logrow button{border:1px solid #6E4540;background:none;color:#F0A69C;font:inherit;font-size:14px;border-radius:10px;min-height:40px;padding:0 12px;cursor:pointer}
+.tag{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.blink{animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@media (prefers-reduced-motion: reduce){.blink{animation:none}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <section id="home">
+    <div class="top">
+      <div class="route"><div class="plate">5515</div><p>어디서 타요?</p></div>
+      <button class="gear" id="openSettings">설정</button>
+    </div>
+    <div class="pick">
+      <button class="stop" data-stop="home"><strong>집</strong><span>집 앞 정류장 · 서울대입구 방향</span></button>
+      <button class="stop" data-stop="snu"><strong>서울대입구</strong><span>봉천사거리 · 관악구청 방향</span></button>
+      <button class="stop" data-stop="gosi"><strong>고시촌입구</strong><span>집으로 가는 방향</span></button>
+    </div>
+  </section>
+
+  <section id="settings" hidden>
+    <button class="back" id="closeSettings">‹ 처음으로</button>
+    <h1 class="sh">시간표 반영</h1>
+    <p class="ssub" id="ttStatus"></p>
+    <div class="fixbar" style="margin-top:0;margin-bottom:26px">
+      <button class="btn primary" id="recalc">기록 반영하기</button>
+      <button class="btn" id="resetTT">처음 시간표로</button>
+    </div>
+    <h1 class="sh">고친 기록</h1>
+    <p class="ssub">"지금 버스 왔어요"로 남긴 기록이에요. 잘못 누른 건 지우면 시간표가 원래대로 돌아가요.</p>
+    <div id="log"></div>
+  </section>
+
+  <section id="detail" hidden>
+    <button class="back" id="back">‹ 처음으로</button>
+    <h1 class="where" id="where"></h1>
+    <p class="where-sub" id="whereSub"></p>
+    <p class="daytype" id="dayType"></p>
+    <div class="clock">
+      <svg viewBox="-6 -6 212 212" role="img" aria-label="현재 시각과 다음 버스">
+        <circle cx="100" cy="100" r="101" fill="var(--face)" stroke="var(--rim)" stroke-width="3.5"/>
+        <g id="nums"></g>
+        <path id="wait" fill="none" stroke="var(--a)" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+        <path id="soon" fill="none" stroke="var(--warn)" stroke-width="4" stroke-linecap="round"/>
+        <text id="digital" x="100" y="136" text-anchor="middle" font-size="13" fill="var(--faint)" font-family="Jost, sans-serif" letter-spacing="0.5"></text>
+        <line id="hh" x1="100" y1="100" x2="100" y2="56" stroke="var(--hand)" stroke-width="5" stroke-linecap="round"/>
+        <line id="mh" x1="100" y1="100" x2="100" y2="34" stroke="var(--hand)" stroke-width="4" stroke-linecap="round"/>
+        <g id="sh"><line x1="100" y1="116" x2="100" y2="22" stroke="var(--sec)" stroke-width="1.4" stroke-linecap="round"/><circle cx="100" cy="100" r="3.5" fill="var(--sec)"/></g>
+        <circle cx="100" cy="100" r="2.5" fill="var(--hand)"/>
+        <g id="marks"></g>
+      </svg>
+    </div>
+    <div id="list"></div>
+    <div class="fixbar"><button class="btn primary" id="came">지금 버스 왔어요</button></div>
+    <div class="ask" id="ask" hidden>
+      <p>방금 온 버스가 어떤 거예요?</p>
+      <div class="fixbar" style="margin-top:0">
+        <button class="btn" id="fixA">기본(A)</button>
+        <button class="btn" id="fixB">B</button>
+        <button class="btn" id="fixCancel">취소</button>
+      </div>
+    </div>
+    <div class="toast" id="toast" aria-live="polite"></div>
+    <p class="note" id="note"></p>
+  </section>
+</main>
+<script>
+const BASE={"wk": {"home": "0531b 0536 0539b 0544 0547b 0551b 0556 0559b 0604 0607b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0656b 0702 0706b 0712 0715b 0720 0723b 0728 0731b 0736b 0742 0746b 0752 0757b 0803b 0810 0815b 0822 0826b 0832 0836b 0842 0846b 0852 0856b 0902 0906b 0911b 0917 0921b 0927 0931b 0937 0941b 0947 0951b 0959b 1007b 1016 1023b 1032 1039b 1048 1055b 1103b 1112 1120 1127b 1135b 1144 1151b 1200 1207b 1215b 1224 1231b 1239b 1246 1251b 1257 1301b 1307 1311b 1317 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2048 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624b 0628 0632b 0636 0640b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729b 0734 0739b 0744 0748b 0752 0756b 0800 0804b 0811b 0816 0821b 0826 0832b 0838b 0844 0850b 0856 0901b 0906 0911b 0916 0921b 0926 0931b 0936 0941b 0946b 0951 0956b 1001 1006b 1011 1016b 1021 1026b 1034b 1042b 1050 1058b 1106 1114b 1122 1130b 1138b 1146 1154 1202b 1210b 1218 1226b 1234 1242b 1250b 1258 1306b 1314b 1320 1326b 1331 1336b 1341 1346b 1351 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2119 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637b 0641 0645b 0649 0653b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742b 0747 0752b 0757 0801b 0805 0809b 0813 0817b 0824b 0829 0834b 0839 0845b 0851b 0857 0903b 0909 0914b 0919 0924b 0929 0934b 0939 0944b 0949 0954b 0959b 1004 1009b 1014 1019b 1024 1029b 1034 1039b 1047b 1055b 1103 1111b 1119 1127b 1135 1143b 1151b 1159 1207 1215b 1223b 1231 1239b 1247 1255b 1303b 1311 1319b 1327b 1333 1339b 1344 1349b 1354 1359b 1404 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2132 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "sat": {"home": "0531b 0536 0539b 0544 0547b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0736b 0742 0746b 0752 0756b 0802 0806b 0812 0816b 0822 0826b 0832 0836b 0843 0848b 0855 0900b 0907 0912b 0919 0924b 0931 0936b 0943 0948b 0953b 1001b 1010 1017b 1026 1033b 1042 1049b 1057b 1106 1114 1121b 1130 1137b 1146 1153b 1203b 1214 1223b 1234 1240b 1248 1254b 1302 1308b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2050 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0809b 0814 0819b 0824 0829b 0834 0839b 0844 0849b 0854 0859b 0904 0909b 0915 0921b 0927 0933b 0939 0945b 0951 0957b 1003 1009b 1015 1021b 1028b 1036b 1044 1052b 1100 1108b 1116 1124b 1132b 1140 1148 1156b 1204 1212b 1220 1228b 1238b 1248 1258b 1308 1315b 1322 1329b 1336 1343b 1350 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2121 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0822b 0827 0832b 0837 0842b 0847 0852b 0857 0902b 0907 0912b 0917 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1028 1034b 1041b 1049b 1057 1105b 1113 1121b 1129 1137b 1145b 1153 1201 1209b 1217 1225b 1233 1241b 1251b 1301 1311b 1321 1328b 1335 1342b 1349 1356b 1403 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2134 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "hol": {"home": "0532 0536b 0542 0546b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0633 0638b 0645 0650b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0738 0743b 0750 0755b 0802 0807b 0814 0819b 0826 0831b 0838 0843b 0849b 0856 0901b 0908 0913b 0920 0925b 0932 0937b 0944 0949b 0959 1008 1016b 1026 1034b 1044 1052b 1102 1111b 1121b 1132 1141b 1152 1201b 1210 1217b 1226 1234 1241b 1250 1257b 1304 1309b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1913b 1922 1930 1937b 1947 1955b 2005 2013b 2022 2029b 2037b 2047 2055b 2105 2113b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604 0609b 0614 0619b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0705 0711b 0717 0723b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0810 0816b 0822 0828b 0834 0840b 0846 0852b 0858 0904b 0910 0916b 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1031 1040 1049b 1058 1107b 1116 1125b 1134 1144b 1154b 1204 1214b 1224 1234b 1242 1250b 1258 1306 1314b 1322 1330b 1336 1342b 1348 1354b 1400 1406b 1412 1418b 1424 1429b 1434 1439b 1444 1449b 1454 1459b 1507 1515b 1523 1531b 1539 1547b 1555 1603b 1611 1619b 1627 1635b 1643 1651b 1659 1707b 1715 1723b 1731 1739b 1747 1755b 1803 1811b 1820b 1829 1838b 1847 1856b 1905 1913b 1921 1929b 1937 1946b 1954 2002 2010b 2019 2028b 2037 2046b 2053 2101b 2109b 2118 2127b 2136 2145b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617 0622b 0627 0632b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0718 0724b 0730 0736b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0823 0829b 0835 0841b 0847 0853b 0859 0905b 0911 0917b 0923 0929b 0935b 0941 0947b 0953 0959b 1005 1011b 1017 1023b 1029 1035b 1044 1053 1102b 1111 1120b 1129 1138b 1147 1157b 1207b 1217 1227b 1237 1247b 1255 1303b 1311 1319 1327b 1335 1343b 1349 1355b 1401 1407b 1413 1419b 1425 1431b 1437 1442b 1447 1452b 1457 1502b 1507 1512b 1520 1528b 1536 1544b 1552 1600b 1608 1616b 1624 1632b 1640 1648b 1656 1704b 1712 1720b 1728 1736b 1744 1752b 1800 1808b 1816 1824b 1833b 1842 1851b 1900 1909b 1918 1926b 1934 1942b 1950 1959b 2007 2015 2023b 2032 2041b 2050 2059b 2106 2114b 2122b 2131 2140b 2149 2158b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}};
+const BASE_VER="official-2023-06-v2";
+const TYPES=["wk","sat","hol"];
+const TYPE_NAME={wk:"평일 시간표",sat:"토요일 시간표",hol:"일요일·공휴일 시간표"};
+const HOLIDAYS=new Set(["2026-01-01","2026-06-06","2026-08-15","2026-10-03","2027-10-09","2027-12-25","2026-02-16","2026-02-17","2026-02-18","2026-03-02","2026-05-05","2026-05-25","2026-06-03","2026-08-17","2026-09-24","2026-09-25","2026-09-26","2026-10-05","2026-10-09","2026-12-25","2027-01-01","2027-02-06","2027-02-07","2027-02-08","2027-02-09","2027-03-01","2027-05-05","2027-05-13","2027-08-16","2027-09-14","2027-09-15","2027-09-16","2027-10-04","2027-10-11","2027-12-27"]);
+function svcDate(d){ return new Date(d.getTime()-4*3600*1000); }
+function typeOf(d){ const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); if(d.getDay()===0||HOLIDAYS.has(k)) return "hol"; if(d.getDay()===6) return "sat"; return "wk"; }
+function dayType(now){ return typeOf(svcDate(now)); }
+const STOPS=["home","snu","gosi"];
+const WARN_MIN=3;
+const INFO={
+  home:{name:"집", sub:"집 앞에서 타는 버스", color:"#3E9B4F"},
+  snu:{name:"서울대입구", sub:"봉천사거리에서 타는 버스", color:"#2F6BD8"},
+  gosi:{name:"고시촌입구", sub:"집으로 가는 버스", color:"#7B4FC9"}
+};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,"0");
+const toM=s=>parseInt(s.slice(0,2),10)*60+parseInt(s.slice(2,4),10);
+const fmt=m=>pad(Math.floor(m/60)%24)+":"+pad(m%60);
+function basePairs(type){
+  const L={}; STOPS.forEach(k=>L[k]=BASE[type][k].trim().split(/\s+/));
+  const P=L.home.map((x,i)=>{
+    const p={b:/b$/.test(x), ok:false};
+    STOPS.forEach(k=>{ let m=toM(L[k][i]); if(i>0 && m<240) m+=1440; p[k]=m; });
+    return p;
+  });
+  // 자정 넘긴 시각 보정 (앞 버스보다 작으면 다음날)
+  STOPS.forEach(k=>{ for(let i=1;i<P.length;i++){ if(P[i][k]<P[i-1][k]-600) P[i][k]+=1440; } });
+  return P;
+}
+const OFF={home:0, snu:35, gosi:48};
+let FIXES=[], DATA={}, TT=null;
+const fixType=f=>f.day||"wk";
+function matchFix(P,f,onlyFree){
+  const X=f.stop; let best=-1, cost=1e9;
+  P.forEach((p,i)=>{
+    if(onlyFree && p.ok) return;
+    const d=Math.abs(p[X]-f.m); if(d>8) return;
+    const c=d+(p.b!==f.b?2:0)+(p.ok?50:0); if(c<cost){cost=c;best=i;}
+  });
+  return best;
+}
+function placeFix(P,f){
+  const X=f.stop; if(!STOPS.includes(X)) return;
+  const i=matchFix(P,f,true);
+  if(i>=0){ const p=P[i], d=f.m-p[X]; STOPS.forEach(k=>p[k]+=d); p.b=f.b; p.ok=true; p.anchor=true; }
+  else { const n={b:f.b, ok:true, anchor:true}; STOPS.forEach(k=>n[k]=f.m-OFF[X]+OFF[k]); P.push(n); }
+}
+function recalc(){
+  const out={};
+  TYPES.forEach(t=>{
+    const P=basePairs(t);
+    FIXES.filter(f=>fixType(f)===t).sort((a,b)=>a.at<b.at?-1:1).forEach(f=>placeFix(P,f));
+    P.sort((a,b)=>a.home-b.home);
+    out[t]=P.map(p=>[p.home,p.snu,p.gosi,p.b?1:0,p.ok?1:0]);
+  });
+  return {ver:BASE_VER, at:new Date().toISOString(), n:FIXES.length, pairs:out};
+}
+function applyFixes(){
+  DATA={};
+  TYPES.forEach(t=>{
+    let P;
+    if(TT&&TT.pairs&&TT.pairs[t]) P=TT.pairs[t].map(a=>({home:a[0],snu:a[1],gosi:a[2],b:!!a[3],ok:!!a[4]}));
+    else P=basePairs(t);
+    FIXES.filter(f=>fixType(f)===t && (!TT||f.at>TT.at)).sort((a,b)=>a.at<b.at?-1:1).forEach(f=>placeFix(P,f));
+    P.sort((a,b)=>a.home-b.home);
+    DATA[t]={};
+    STOPS.forEach(k=>{ DATA[t][k]={buses:P.map(p=>({m:p[k], hhmm:fmt(p[k]), b:p.b, ok:p.ok})).sort((a,b)=>a.m-b.m)}; });
+  });
+}
+try{ const v=localStorage.getItem("tt5515"); if(v){ const o=JSON.parse(v); if(o.ver===BASE_VER) TT=o; } }catch(e){}
+applyFixes();
+
+const NS="http://www.w3.org/2000/svg";
+function pt(deg,r){const a=deg*Math.PI/180;return [100+r*Math.sin(a),100-r*Math.cos(a)];}
+function arc(d1,d2,r){
+  if(d2-d1<0.5) return "";
+  const [x1,y1]=pt(d1,r),[x2,y2]=pt(d2,r);
+  return "M"+x1.toFixed(2)+" "+y1.toFixed(2)+" A"+r+" "+r+" 0 "+((d2-d1)>180?1:0)+" 1 "+x2.toFixed(2)+" "+y2.toFixed(2);
+}
+(function(){
+  const g=$("nums");
+  for(let n=1;n<=12;n++){
+    const [x,y]=pt(n*30,74);
+    const t=document.createElementNS(NS,"text");
+    t.setAttribute("x",x.toFixed(1)); t.setAttribute("y",(y+5.2).toFixed(1));
+    t.setAttribute("text-anchor","middle"); t.setAttribute("font-size","15");
+    t.setAttribute("font-weight","300"); t.setAttribute("fill","var(--num)");
+    t.setAttribute("font-family","Jost, sans-serif"); t.textContent=n; g.appendChild(t);
+  }
+})();
+function setHand(id,deg,r){const [x,y]=pt(deg,r);const el=$(id);el.setAttribute("x2",x.toFixed(2));el.setAttribute("y2",y.toFixed(2));}
+let current=null, raf=null, lastSec=-1;
+function nowMin(d){ let m=d.getHours()*60+d.getMinutes(); if(m<240) m+=1440; return m; }
+
+function tick(){
+  const now=new Date();
+  const h=now.getHours(), m=now.getMinutes(), s=now.getSeconds(), ms=now.getMilliseconds();
+  setHand("hh",((h%12)+m/60+s/3600)*30,44);
+  setHand("mh",(m+s/60)*6,66);
+  $("sh").setAttribute("transform","rotate("+((s+ms/1000)*6).toFixed(2)+" 100 100)");
+  if(s!==lastSec){ lastSec=s; render(now); }
+  raf=requestAnimationFrame(tick);
+}
+function render(now){
+  const type=dayType(now); const d=DATA[type][current];
+  $("dayType").textContent=TYPE_NAME[type];
+  const nm=nowMin(now), nowF=nm+now.getSeconds()/60;
+  $("digital").textContent=pad(now.getHours())+":"+pad(now.getMinutes());
+  const next=d.buses.filter(x=>x.m>=nm).slice(0,3);
+  const nowDeg=(nowF%60)*6;
+  const warn=next.length>0 && (next[0].m-nm)<=WARN_MIN;
+  const marks=$("marks"); marks.innerHTML="";
+  const inHour=next.filter(x=>x.m-nowF<60);
+  if(inHour.length){
+    const endDeg=nowDeg+(inHour[inHour.length-1].m-nowF)*6;
+    const firstDeg=nowDeg+(inHour[0].m-nowF)*6;
+    if(warn){ $("soon").setAttribute("d",arc(nowDeg,firstDeg,91)); $("soon").setAttribute("class","blink"); $("wait").setAttribute("d",arc(firstDeg,endDeg,91)); }
+    else { $("soon").setAttribute("d",""); $("soon").removeAttribute("class"); $("wait").setAttribute("d",arc(nowDeg,endDeg,91)); }
+    inHour.forEach((x,i)=>{
+      const [cx,cy]=pt(nowDeg+(x.m-nowF)*6,91);
+      const g=document.createElementNS(NS,"g"); if(i===0&&warn) g.setAttribute("class","blink");
+      const c=document.createElementNS(NS,"circle");
+      c.setAttribute("cx",cx.toFixed(2)); c.setAttribute("cy",cy.toFixed(2)); c.setAttribute("r","6.5");
+      c.setAttribute("fill",(i===0&&warn)?"var(--warn)":(x.b?"var(--b)":"var(--a)"));
+      c.setAttribute("stroke","var(--face)"); c.setAttribute("stroke-width","1.5");
+      const t=document.createElementNS(NS,"text");
+      t.setAttribute("x",cx.toFixed(2)); t.setAttribute("y",(cy+3).toFixed(2)); t.setAttribute("text-anchor","middle");
+      t.setAttribute("font-size","8"); t.setAttribute("font-weight","600"); t.setAttribute("fill","#fff");
+      t.setAttribute("font-family","Jost, sans-serif"); t.textContent=i+1;
+      g.appendChild(c); g.appendChild(t); marks.appendChild(g);
+    });
+  } else { $("wait").setAttribute("d",""); $("soon").setAttribute("d",""); }
+  const list=$("list"); list.innerHTML="";
+  if(next.length===0){
+    const tt=typeOf(new Date(svcDate(now).getTime()+86400000)); const f=DATA[tt][current].buses[0];
+    list.innerHTML='<div class="empty">오늘 버스는 끝났어요. 내일 첫차는 '+f.hhmm+(f.b?' B':'')+'예요 ('+TYPE_NAME[tt]+').</div>';
+  } else {
+    next.forEach((x,i)=>{
+      const left=x.m-nm, w=(i===0&&warn);
+      const row=document.createElement("div"); row.className="row";
+      row.innerHTML='<span class="dot" style="background:'+(w?'var(--warn)':(x.b?'var(--b)':'var(--a)'))+'">'+(i+1)+'</span>'
+        +'<span class="t">'+x.hhmm+'</span>'
+        +'<span class="bb">'+(x.b?'B':'')+(x.ok?'<span class="chk" title="직접 확인한 시간">✓</span>':'')+'</span>'
+        +'<span class="left'+(w?' warn blink':'')+'">'+(left===0?'곧 도착':left+'분 후')+'</span>';
+      list.appendChild(row);
+    });
+  }
+  $("note").textContent="공식 운행시간표 기준이에요. B는 5515B(중간 출발 차량), ✓는 직접 확인한 시간이에요.";
+}
+function show(view){
+  ["home","settings","detail"].forEach(v=>$(v).hidden=(v!==view));
+  document.documentElement.dataset.view=view;
+}
+function open(stop){
+  current=stop; lastSec=-1;
+  document.documentElement.dataset.stop=stop;
+  $("ask").hidden=true; $("toast").textContent="";
+  $("where").textContent=INFO[stop].name; $("whereSub").textContent=INFO[stop].sub;
+  show("detail"); cancelAnimationFrame(raf); tick();
+  try{ history.pushState({v:"detail"},""); }catch(e){}
+}
+function openSettings(){ renderLog(); show("settings"); try{ history.pushState({v:"settings"},""); }catch(e){} }
+function goHome(){ current=null; cancelAnimationFrame(raf); delete document.documentElement.dataset.stop; show("home"); }
+document.querySelectorAll(".stop").forEach(b=>b.addEventListener("click",()=>open(b.dataset.stop)));
+$("openSettings").addEventListener("click",openSettings);
+function backBtn(){ if(history.state&&history.state.v) history.back(); else goHome(); }
+$("back").addEventListener("click",backBtn);
+$("closeSettings").addEventListener("click",backBtn);
+window.addEventListener("popstate",()=>goHome());
+show("home");
+
+// ---- 고친 기록 ----
+let dbRef=null;
+function saveLocal(){ try{ localStorage.setItem("fixes5515",JSON.stringify(FIXES)); }catch(e){} }
+function loadLocal(){ try{ const v=localStorage.getItem("fixes5515"); return v?JSON.parse(v):[]; }catch(e){ return []; } }
+function refresh(){ applyFixes(); renderLog(); if(current) lastSec=-1; }
+function renderStatus(){
+  const el=$("ttStatus");
+  if(!TT){ el.textContent="아직 반영한 적이 없어요. 고친 기록이 쌓이면 \"기록 반영하기\"를 눌러주세요. 확인된 시간 사이의 추정 버스를 다시 나누고, 정류장 사이 걸리는 시간도 맞춰줘요."; return; }
+  const d=new Date(TT.at);
+  const newer=FIXES.filter(f=>f.at>TT.at).length;
+  el.textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일에 기록 "+TT.n+"개로 반영했어요."+(newer?" 그 뒤로 새 기록 "+newer+"개가 있어요.":"");
+}
+async function saveTT(){
+  try{ if(TT) localStorage.setItem("tt5515",JSON.stringify(TT)); else localStorage.removeItem("tt5515"); }catch(e){}
+  if(dbRef){ try{ const d=dbRef.doc("state/timetable"); if(TT) await d.set(TT); else await d.delete(); }catch(e){} }
+}
+$("recalc").addEventListener("click",async()=>{ TT=recalc(); applyFixes(); renderLog(); await saveTT(); $("ttStatus").textContent="반영했어요. 기록 "+TT.n+"개로 시간표 전체를 다시 계산했어요."; });
+$("resetTT").addEventListener("click",async()=>{ TT=null; applyFixes(); renderLog(); await saveTT(); });
+function renderLog(){
+  renderStatus();
+  const box=$("log"); box.innerHTML="";
+  if(FIXES.length===0){ box.innerHTML='<p class="ssub">아직 기록이 없어요. 정류장에서 버스가 오면 시계 화면의 "지금 버스 왔어요"를 눌러주세요.</p>'; return; }
+  FIXES.slice().sort((a,b)=>a.at<b.at?1:-1).forEach(f=>{
+    const d=new Date(f.at);
+    const r=document.createElement("div"); r.className="logrow";
+    const info=document.createElement("div");
+    const lt=document.createElement("div"); lt.className="lt";
+    const tag=document.createElement("span"); tag.className="tag"; tag.style.background=(INFO[f.stop]||{}).color||"#888";
+    lt.appendChild(tag); lt.appendChild(document.createTextNode(((INFO[f.stop]||{}).name||f.stop)+"  "+fmt(f.m)+(f.b?" B":"")));
+    const dl={wk:"평일",sat:"토요일",hol:"공휴일"}[fixType(f)];
+    const ld=document.createElement("div"); ld.className="ld";
+    ld.textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일 기록 · "+dl;
+    info.appendChild(lt); info.appendChild(ld);
+    const del=document.createElement("button"); del.textContent="지우기";
+    del.addEventListener("click",()=>removeFix(f.id));
+    r.appendChild(info); r.appendChild(del); box.appendChild(r);
+  });
+}
+async function addFix(b){
+  const now=new Date();
+  const f={id:String(now.getTime()), stop:current, day:dayType(now), m:nowMin(now), b:b, at:now.toISOString()};
+  FIXES.push(f); saveLocal(); refresh();
+  $("ask").hidden=true;
+  $("toast").textContent=fmt(f.m)+(b?" B":"")+" 버스로 고쳤어요. 다른 정류장 시간도 같이 맞췄어요.";
+  if(dbRef){ try{ await dbRef.collection("fixes").doc(f.id).set(f); }catch(e){} }
+}
+async function removeFix(id){
+  const f0=FIXES.find(f=>f.id===id);
+  FIXES=FIXES.filter(f=>f.id!==id); saveLocal();
+  if(TT && f0 && f0.at<=TT.at){ TT=recalc(); saveTT(); }
+  refresh();
+  if(dbRef){ try{ await dbRef.collection("fixes").doc(id).delete(); }catch(e){} }
+}
+$("came").addEventListener("click",()=>{
+  $("ask").hidden=false; $("toast").textContent="";
+});
+$("fixA").addEventListener("click",()=>addFix(false));
+$("fixB").addEventListener("click",()=>addFix(true));
+$("fixCancel").addEventListener("click",()=>{ $("ask").hidden=true; });
+FIXES=loadLocal(); refresh();
+(async()=>{
+  try{
+    if(!window.claude||!window.claude.use) return;
+    const db=await window.claude.use("db"); if(!db) return;
+    dbRef=db;
+    db.doc("state/timetable").onSnapshot(d=>{
+      if(d.exists){ const v=d.data(); if(v.ver===BASE_VER && (!TT||v.at>TT.at)){ TT=v; try{localStorage.setItem("tt5515",JSON.stringify(TT));}catch(e){} refresh(); } }
+    },()=>{});
+    db.collection("fixes").onSnapshot(snap=>{
+      const remote=snap.docs.map(d=>d.data()).filter(Boolean);
+      const ids=new Set(remote.map(f=>f.id));
+      const localOnly=FIXES.filter(f=>!ids.has(f.id));
+      localOnly.forEach(f=>{ db.collection("fixes").doc(f.id).set(f).catch(()=>{}); });
+      FIXES=remote.concat(localOnly); saveLocal(); refresh();
+    },()=>{});
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
