@@ -26,7 +26,7 @@
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#232624; --face:#202321; } }
 :root[data-theme="dark"]{ --bg:#232624; --face:#202321; }
-:root[data-view="settings"]{--line:#474B48;--rim:#9ED3A4;--face:#2F3230;--num:#F1F2EF}
+:root[data-view="settings"],:root[data-view="editor"]{--line:#474B48;--rim:#9ED3A4;--face:#2F3230;--num:#F1F2EF}
 
 :root[data-stop="home"]{--bg:#ECF3EA;--face:#FFFFFF;--rim:#2E5E3A;--num:#2E5E3A;--hand:#2E5E3A;--faint:#A9BAA9;--a:#3E9B4F;--line:#D5E2D2;--text:#213326;--sub:#5C6E5F;--link:#2E7D3F}
 :root[data-stop="snu"]{--bg:#EAF0F9;--face:#FFFFFF;--rim:#243B78;--num:#243B78;--hand:#243B78;--faint:#A7B3CC;--a:#2F6BD8;--line:#D4DDEE;--text:#1E2A45;--sub:#5A6680;--link:#2E5BB8}
@@ -103,6 +103,27 @@ main{max-width:460px;margin:0 auto;padding:28px 22px 32px}
 .logrow .lt{font-size:16px}
 .logrow .ld{font-size:13px;color:var(--sub);margin-top:2px}
 .logrow button{border:1px solid #6E4540;background:none;color:#F0A69C;font:inherit;font-size:14px;border-radius:10px;min-height:40px;padding:0 12px;cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1.5px solid var(--line);background:none;color:var(--text);border-radius:999px;min-height:42px;padding:0 15px;font:inherit;font-size:15px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip:focus-visible,.edrow:focus-visible{outline:3px solid #9ED3A4;outline-offset:2px}
+.edrow{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;
+  padding:13px 4px;border:none;border-top:1px solid var(--line);background:none;color:var(--text);font:inherit;
+  text-align:left;min-height:48px;cursor:pointer}
+.edrow .et{font-family:Jost,sans-serif;font-size:23px;font-variant-numeric:tabular-nums}
+.edrow .eb{font-size:13px;font-weight:600;color:var(--btext)}
+.edrow .ec{font-size:12px;color:#7FCB8C;font-family:Jost,sans-serif}
+.edrow .ez{color:var(--sub);font-size:18px}
+.edrow[aria-expanded="true"]{background:rgba(255,255,255,.05)}
+.edpanel{border-top:1px solid var(--line);padding:14px 4px 20px;display:grid;gap:12px}
+.timerow{display:flex;gap:10px;align-items:center}
+.timerow input{flex:1;min-width:0;font:inherit;font-family:Jost,sans-serif;font-size:24px;padding:9px 12px;
+  border-radius:12px;border:1.5px solid var(--line);background:var(--face);color:var(--num)}
+.step{width:56px;flex:none;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:none;
+  color:var(--text);font:inherit;font-size:18px;cursor:pointer}
+.btn.danger{border-color:#7A4B45;color:#F0A69C;background:none}
+.btn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.small{font-size:13px;color:var(--sub);line-height:1.5;margin:0}
 .tag{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
 .blink{animation:blink 1s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
@@ -118,23 +139,38 @@ main{max-width:460px;margin:0 auto;padding:28px 22px 32px}
       <button class="gear" id="openSettings">설정</button>
     </div>
     <div class="pick">
-      <button class="stop" data-stop="home"><strong>집</strong><span>집 앞 정류장 · 서울대입구 방향</span></button>
+      <button class="stop" data-stop="home"><strong>집</strong><span>금호타운아파트 · 대학동노인정 방향</span></button>
       <button class="stop" data-stop="snu"><strong>서울대입구</strong><span>봉천사거리 · 관악구청 방향</span></button>
-      <button class="stop" data-stop="gosi"><strong>고시촌입구</strong><span>집으로 가는 방향</span></button>
+      <button class="stop" data-stop="gosi"><strong>고시촌입구</strong><span>대학동치안센터 방향 · 집으로</span></button>
     </div>
   </section>
 
   <section id="settings" hidden>
     <button class="back" id="closeSettings">‹ 처음으로</button>
-    <h1 class="sh">시간표 반영</h1>
+    <h1 class="sh">시간표</h1>
     <p class="ssub" id="ttStatus"></p>
     <div class="fixbar" style="margin-top:0;margin-bottom:26px">
-      <button class="btn primary" id="recalc">기록 반영하기</button>
-      <button class="btn" id="resetTT">처음 시간표로</button>
+      <button class="btn primary" id="openEditor">시간표 고치기</button>
+      <button class="btn danger" id="resetTT">처음 시간표로</button>
     </div>
     <h1 class="sh">고친 기록</h1>
     <p class="ssub">"지금 버스 왔어요"로 남긴 기록이에요. 잘못 누른 건 지우면 시간표가 원래대로 돌아가요.</p>
     <div id="log"></div>
+  </section>
+
+  <section id="editor" hidden>
+    <button class="back" id="closeEditor">‹ 설정으로</button>
+    <h1 class="sh">시간표 고치기</h1>
+    <p class="ssub">버스를 누르면 시간과 A/B를 바꾸거나 지울 수 있어요. 같은 버스라서 다른 정류장 시간도 같이 움직여요.</p>
+    <div class="chips" id="edStops"></div>
+    <div class="chips" id="edDays"></div>
+    <div class="fixbar" style="margin-top:0">
+      <button class="btn" id="edAdd">버스 추가</button>
+      <button class="btn" id="edJump">지금 시간으로</button>
+    </div>
+    <div class="toast" id="edToast" aria-live="polite"></div>
+    <div id="edAddPanel"></div>
+    <div id="edList"></div>
   </section>
 
   <section id="detail" hidden>
@@ -171,7 +207,7 @@ main{max-width:460px;margin:0 auto;padding:28px 22px 32px}
   </section>
 </main>
 <script>
-const BASE={"wk": {"home": "0531b 0536 0539b 0544 0547b 0551b 0556 0559b 0604 0607b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0656b 0702 0706b 0712 0715b 0720 0723b 0728 0731b 0736b 0742 0746b 0752 0757b 0803b 0810 0815b 0822 0826b 0832 0836b 0842 0846b 0852 0856b 0902 0906b 0911b 0917 0921b 0927 0931b 0937 0941b 0947 0951b 0959b 1007b 1016 1023b 1032 1039b 1048 1055b 1103b 1112 1120 1127b 1135b 1144 1151b 1200 1207b 1215b 1224 1231b 1239b 1246 1251b 1257 1301b 1307 1311b 1317 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2048 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624b 0628 0632b 0636 0640b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729b 0734 0739b 0744 0748b 0752 0756b 0800 0804b 0811b 0816 0821b 0826 0832b 0838b 0844 0850b 0856 0901b 0906 0911b 0916 0921b 0926 0931b 0936 0941b 0946b 0951 0956b 1001 1006b 1011 1016b 1021 1026b 1034b 1042b 1050 1058b 1106 1114b 1122 1130b 1138b 1146 1154 1202b 1210b 1218 1226b 1234 1242b 1250b 1258 1306b 1314b 1320 1326b 1331 1336b 1341 1346b 1351 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2119 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637b 0641 0645b 0649 0653b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742b 0747 0752b 0757 0801b 0805 0809b 0813 0817b 0824b 0829 0834b 0839 0845b 0851b 0857 0903b 0909 0914b 0919 0924b 0929 0934b 0939 0944b 0949 0954b 0959b 1004 1009b 1014 1019b 1024 1029b 1034 1039b 1047b 1055b 1103 1111b 1119 1127b 1135 1143b 1151b 1159 1207 1215b 1223b 1231 1239b 1247 1255b 1303b 1311 1319b 1327b 1333 1339b 1344 1349b 1354 1359b 1404 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2132 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "sat": {"home": "0531b 0536 0539b 0544 0547b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0736b 0742 0746b 0752 0756b 0802 0806b 0812 0816b 0822 0826b 0832 0836b 0843 0848b 0855 0900b 0907 0912b 0919 0924b 0931 0936b 0943 0948b 0953b 1001b 1010 1017b 1026 1033b 1042 1049b 1057b 1106 1114 1121b 1130 1137b 1146 1153b 1203b 1214 1223b 1234 1240b 1248 1254b 1302 1308b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2050 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0809b 0814 0819b 0824 0829b 0834 0839b 0844 0849b 0854 0859b 0904 0909b 0915 0921b 0927 0933b 0939 0945b 0951 0957b 1003 1009b 1015 1021b 1028b 1036b 1044 1052b 1100 1108b 1116 1124b 1132b 1140 1148 1156b 1204 1212b 1220 1228b 1238b 1248 1258b 1308 1315b 1322 1329b 1336 1343b 1350 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2121 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0822b 0827 0832b 0837 0842b 0847 0852b 0857 0902b 0907 0912b 0917 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1028 1034b 1041b 1049b 1057 1105b 1113 1121b 1129 1137b 1145b 1153 1201 1209b 1217 1225b 1233 1241b 1251b 1301 1311b 1321 1328b 1335 1342b 1349 1356b 1403 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2134 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "hol": {"home": "0532 0536b 0542 0546b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0633 0638b 0645 0650b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0738 0743b 0750 0755b 0802 0807b 0814 0819b 0826 0831b 0838 0843b 0849b 0856 0901b 0908 0913b 0920 0925b 0932 0937b 0944 0949b 0959 1008 1016b 1026 1034b 1044 1052b 1102 1111b 1121b 1132 1141b 1152 1201b 1210 1217b 1226 1234 1241b 1250 1257b 1304 1309b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1913b 1922 1930 1937b 1947 1955b 2005 2013b 2022 2029b 2037b 2047 2055b 2105 2113b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604 0609b 0614 0619b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0705 0711b 0717 0723b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0810 0816b 0822 0828b 0834 0840b 0846 0852b 0858 0904b 0910 0916b 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1031 1040 1049b 1058 1107b 1116 1125b 1134 1144b 1154b 1204 1214b 1224 1234b 1242 1250b 1258 1306 1314b 1322 1330b 1336 1342b 1348 1354b 1400 1406b 1412 1418b 1424 1429b 1434 1439b 1444 1449b 1454 1459b 1507 1515b 1523 1531b 1539 1547b 1555 1603b 1611 1619b 1627 1635b 1643 1651b 1659 1707b 1715 1723b 1731 1739b 1747 1755b 1803 1811b 1820b 1829 1838b 1847 1856b 1905 1913b 1921 1929b 1937 1946b 1954 2002 2010b 2019 2028b 2037 2046b 2053 2101b 2109b 2118 2127b 2136 2145b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617 0622b 0627 0632b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0718 0724b 0730 0736b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0823 0829b 0835 0841b 0847 0853b 0859 0905b 0911 0917b 0923 0929b 0935b 0941 0947b 0953 0959b 1005 1011b 1017 1023b 1029 1035b 1044 1053 1102b 1111 1120b 1129 1138b 1147 1157b 1207b 1217 1227b 1237 1247b 1255 1303b 1311 1319 1327b 1335 1343b 1349 1355b 1401 1407b 1413 1419b 1425 1431b 1437 1442b 1447 1452b 1457 1502b 1507 1512b 1520 1528b 1536 1544b 1552 1600b 1608 1616b 1624 1632b 1640 1648b 1656 1704b 1712 1720b 1728 1736b 1744 1752b 1800 1808b 1816 1824b 1833b 1842 1851b 1900 1909b 1918 1926b 1934 1942b 1950 1959b 2007 2015 2023b 2032 2041b 2050 2059b 2106 2114b 2122b 2131 2140b 2149 2158b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}};
+const BASE={"wk": {"home": "0531b 0536 0539b 0544 0547b 0551b 0556 0559b 0604 0607b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0656b 0702 0706b 0712 0715b 0720 0723b 0728 0731b 0736b 0742 0746b 0752 0757b 0803b 0810 0815b 0822 0826b 0832 0836b 0842 0846b 0852 0856b 0902 0906b 0911b 0917 0921b 0927 0933 0937 0941b 0947 0951b 0959b 1007b 1016 1023b 1032 1039b 1048 1055b 1103b 1112 1120 1127b 1135b 1144 1151b 1157 1207b 1215b 1224 1231b 1239b 1246 1251b 1257 1301b 1307 1311b 1317 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2048 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624b 0628 0632b 0636 0640b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729b 0734 0739b 0744 0748b 0752 0756b 0800 0804b 0811b 0816 0821b 0826 0832b 0838b 0844 0850b 0856 0901b 0906 0911b 0916 0921b 0926 0931b 0936 0941b 0946b 0951 0956b 1001 1008 1011 1016b 1021 1026b 1034b 1042b 1050 1058b 1106 1114b 1122 1130b 1138b 1146 1154 1202b 1210b 1218 1226b 1231 1242b 1250b 1258 1306b 1314b 1320 1326b 1331 1336b 1341 1346b 1351 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2119 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637b 0641 0645b 0649 0653b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742b 0747 0752b 0757 0801b 0805 0809b 0813 0817b 0824b 0829 0834b 0839 0845b 0851b 0857 0903b 0909 0914b 0919 0924b 0929 0934b 0939 0944b 0949 0954b 0959b 1004 1009b 1014 1021 1024 1029b 1034 1039b 1047b 1055b 1103 1111b 1119 1127b 1135 1143b 1151b 1159 1207 1215b 1223b 1231 1239b 1244 1255b 1303b 1311 1319b 1327b 1333 1339b 1344 1349b 1354 1359b 1404 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2132 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "sat": {"home": "0531b 0536 0539b 0544 0547b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0631b 0637 0641b 0647 0651b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0736b 0742 0746b 0752 0756b 0802 0806b 0812 0816b 0822 0826b 0832 0836b 0843 0848b 0855 0900b 0907 0912b 0919 0924b 0931 0936b 0943 0948b 0953b 1001b 1010 1017b 1026 1033b 1042 1049b 1057b 1106 1114 1121b 1130 1137b 1146 1153b 1203b 1214 1223b 1234 1240b 1248 1254b 1302 1308b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1912b 1923 1931 1938b 1948 1956b 2006 2014b 2023 2030b 2038b 2050 2056b 2106 2114b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604b 0608 0612b 0616 0620b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0704b 0709 0714b 0719 0724b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0809b 0814 0819b 0824 0829b 0834 0839b 0844 0849b 0854 0859b 0904 0909b 0915 0921b 0927 0933b 0939 0945b 0951 0957b 1003 1009b 1015 1021b 1028b 1036b 1044 1052b 1100 1108b 1116 1124b 1132b 1140 1148 1156b 1204 1212b 1220 1228b 1238b 1248 1258b 1308 1315b 1322 1329b 1336 1343b 1350 1356b 1402 1408b 1414 1420b 1426 1431b 1436 1441b 1446 1451b 1456 1501b 1509 1517b 1525 1533b 1541 1549b 1557 1605b 1613 1621b 1629 1637b 1645 1653b 1701 1709b 1717 1725b 1733 1741b 1749 1757b 1805 1813b 1822b 1831 1840b 1849 1858b 1907 1915b 1923 1931b 1939 1947b 1955 2003 2011b 2020 2029b 2038 2047b 2054 2102b 2110b 2121 2128b 2137 2146b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617b 0621 0625b 0629 0633b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0717b 0722 0727b 0732 0737b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0822b 0827 0832b 0837 0842b 0847 0852b 0857 0902b 0907 0912b 0917 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1028 1034b 1041b 1049b 1057 1105b 1113 1121b 1129 1137b 1145b 1153 1201 1209b 1217 1225b 1233 1241b 1251b 1301 1311b 1321 1328b 1335 1342b 1349 1356b 1403 1409b 1415 1421b 1427 1433b 1439 1444b 1449 1454b 1459 1504b 1509 1514b 1522 1530b 1538 1546b 1554 1602b 1610 1618b 1626 1634b 1642 1650b 1658 1706b 1714 1722b 1730 1738b 1746 1754b 1802 1810b 1818 1826b 1835b 1844 1853b 1902 1911b 1920 1928b 1936 1944b 1952 2000b 2008 2016 2024b 2033 2042b 2051 2100b 2107 2115b 2123b 2134 2141b 2150 2159b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}, "hol": {"home": "0532 0536b 0542 0546b 0552 0556b 0602 0606b 0612 0616b 0622 0626b 0633 0638b 0645 0650b 0657 0701b 0707 0711b 0717 0721b 0727 0731b 0738 0743b 0750 0755b 0802 0807b 0814 0819b 0826 0831b 0838 0843b 0849b 0856 0901b 0908 0913b 0920 0925b 0932 0937b 0944 0949b 0959 1008 1016b 1026 1034b 1044 1052b 1102 1111b 1121b 1132 1141b 1152 1201b 1210 1217b 1226 1234 1241b 1250 1257b 1304 1309b 1316 1321b 1328 1333b 1340 1345b 1352 1356b 1402 1406b 1412 1416b 1422 1426b 1435 1442b 1451 1458b 1507 1514b 1523 1530b 1539 1546b 1555 1602b 1611 1618b 1627 1634b 1643 1650b 1659 1706b 1715 1722b 1731 1738b 1747b 1757 1805b 1815 1823b 1833 1840b 1849 1856b 1905 1913b 1922 1930 1937b 1947 1955b 2005 2013b 2022 2029b 2037b 2047 2055b 2105 2113b 2123 2131b 2141 2148 2153b 2200 2205b 2212 2216b 2222 2226b 2231 2234b 2239 2242b 2248 2253b 2300 2305b 2312 2317b 2325 2331b", "snu": "0604 0609b 0614 0619b 0624 0629b 0634 0639b 0644 0649b 0654 0659b 0705 0711b 0717 0723b 0729 0734b 0739 0744b 0749 0754b 0759 0804b 0810 0816b 0822 0828b 0834 0840b 0846 0852b 0858 0904b 0910 0916b 0922b 0928 0934b 0940 0946b 0952 0958b 1004 1010b 1016 1022b 1031 1040 1049b 1058 1107b 1116 1125b 1134 1144b 1154b 1204 1214b 1224 1234b 1242 1250b 1258 1306 1314b 1322 1330b 1336 1342b 1348 1354b 1400 1406b 1412 1418b 1424 1429b 1434 1439b 1444 1449b 1454 1459b 1507 1515b 1523 1531b 1539 1547b 1555 1603b 1611 1619b 1627 1635b 1643 1651b 1659 1707b 1715 1723b 1731 1739b 1747 1755b 1803 1811b 1820b 1829 1838b 1847 1856b 1905 1913b 1921 1929b 1937 1946b 1954 2002 2010b 2019 2028b 2037 2046b 2053 2101b 2109b 2118 2127b 2136 2145b 2153 2202b 2211 2218 2224b 2230 2236b 2242 2247b 2252 2257b 2300 2304b 2308 2312b 2317 2323b 2329 2335b 2341 2347b 2354 0001b", "gosi": "0617 0622b 0627 0632b 0637 0642b 0647 0652b 0657 0702b 0707 0712b 0718 0724b 0730 0736b 0742 0747b 0752 0757b 0802 0807b 0812 0817b 0823 0829b 0835 0841b 0847 0853b 0859 0905b 0911 0917b 0923 0929b 0935b 0941 0947b 0953 0959b 1005 1011b 1017 1023b 1029 1035b 1044 1053 1102b 1111 1120b 1129 1138b 1147 1157b 1207b 1217 1227b 1237 1247b 1255 1303b 1311 1319 1327b 1335 1343b 1349 1355b 1401 1407b 1413 1419b 1425 1431b 1437 1442b 1447 1452b 1457 1502b 1507 1512b 1520 1528b 1536 1544b 1552 1600b 1608 1616b 1624 1632b 1640 1648b 1656 1704b 1712 1720b 1728 1736b 1744 1752b 1800 1808b 1816 1824b 1833b 1842 1851b 1900 1909b 1918 1926b 1934 1942b 1950 1959b 2007 2015 2023b 2032 2041b 2050 2059b 2106 2114b 2122b 2131 2140b 2149 2158b 2206 2215b 2224 2231 2237b 2243 2249b 2255 2300b 2305 2310b 2313 2317b 2321 2325b 2330 2336b 2342 2348b 2354 0000b 0007 0014b"}};
 const BASE_VER="official-2023-06-v2";
 const TYPES=["wk","sat","hol"];
 const TYPE_NAME={wk:"평일 시간표",sat:"토요일 시간표",hol:"일요일·공휴일 시간표"};
@@ -182,9 +218,9 @@ function dayType(now){ return typeOf(svcDate(now)); }
 const STOPS=["home","snu","gosi"];
 const WARN_MIN=3;
 const INFO={
-  home:{name:"집", sub:"집 앞에서 타는 버스", color:"#3E9B4F"},
+  home:{name:"집", sub:"금호타운아파트에서 타는 버스", color:"#3E9B4F"},
   snu:{name:"서울대입구", sub:"봉천사거리에서 타는 버스", color:"#2F6BD8"},
-  gosi:{name:"고시촌입구", sub:"집으로 가는 버스", color:"#7B4FC9"}
+  gosi:{name:"고시촌입구", sub:"고시촌입구에서 집으로 가는 버스", color:"#7B4FC9"}
 };
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,"0");
@@ -202,46 +238,44 @@ function basePairs(type){
   return P;
 }
 const OFF={home:0, snu:35, gosi:48};
-let FIXES=[], DATA={}, TT=null;
+let FIXES=[], DATA={};
 const fixType=f=>f.day||"wk";
-function matchFix(P,f,onlyFree){
+function nearest(P,X,m,tol){ let bi=-1,bc=1e9; P.forEach((p,i)=>{ const d=Math.abs(p[X]-m); if(d<=tol&&d<bc){bc=d;bi=i;} }); return bi; }
+function matchFix(P,f){
   const X=f.stop; let best=-1, cost=1e9;
   P.forEach((p,i)=>{
-    if(onlyFree && p.ok) return;
+    if(p.ok) return;
     const d=Math.abs(p[X]-f.m); if(d>8) return;
-    const c=d+(p.b!==f.b?2:0)+(p.ok?50:0); if(c<cost){cost=c;best=i;}
+    const c=d+(p.b!==f.b?2:0); if(c<cost){cost=c;best=i;}
   });
   return best;
 }
-function placeFix(P,f){
+function applyOp(P,f){
   const X=f.stop; if(!STOPS.includes(X)) return;
-  const i=matchFix(P,f,true);
-  if(i>=0){ const p=P[i], d=f.m-p[X]; STOPS.forEach(k=>p[k]+=d); p.b=f.b; p.ok=true; p.anchor=true; }
-  else { const n={b:f.b, ok:true, anchor:true}; STOPS.forEach(k=>n[k]=f.m-OFF[X]+OFF[k]); P.push(n); }
+  if(f.kind==="add"){ const n={b:!!f.b, ok:true}; STOPS.forEach(k=>n[k]=f.m-OFF[X]+OFF[k]); P.push(n); return; }
+  if(f.kind==="del"){ const i=nearest(P,X,f.om,4); if(i>=0) P.splice(i,1); return; }
+  if(f.kind==="set"){
+    const i=nearest(P,X,f.om,4); if(i<0) return;
+    const p=P[i], d=f.m-p[X]; STOPS.forEach(k=>p[k]+=d); p.b=!!f.b; p.ok=true; return;
+  }
+  const i=matchFix(P,f);
+  if(i>=0){ const p=P[i], d=f.m-p[X]; STOPS.forEach(k=>p[k]+=d); p.b=f.b; p.ok=true; }
+  else { const n={b:f.b, ok:true}; STOPS.forEach(k=>n[k]=f.m-OFF[X]+OFF[k]); P.push(n); }
 }
-function recalc(){
-  const out={};
-  TYPES.forEach(t=>{
-    const P=basePairs(t);
-    FIXES.filter(f=>fixType(f)===t).sort((a,b)=>a.at<b.at?-1:1).forEach(f=>placeFix(P,f));
-    P.sort((a,b)=>a.home-b.home);
-    out[t]=P.map(p=>[p.home,p.snu,p.gosi,p.b?1:0,p.ok?1:0]);
-  });
-  return {ver:BASE_VER, at:new Date().toISOString(), n:FIXES.length, pairs:out};
+function curPairs(type){
+  const P=basePairs(type);
+  FIXES.filter(f=>fixType(f)===type).sort((a,b)=>a.at<b.at?-1:1).forEach(f=>applyOp(P,f));
+  P.sort((a,b)=>a.home-b.home);
+  return P;
 }
 function applyFixes(){
   DATA={};
   TYPES.forEach(t=>{
-    let P;
-    if(TT&&TT.pairs&&TT.pairs[t]) P=TT.pairs[t].map(a=>({home:a[0],snu:a[1],gosi:a[2],b:!!a[3],ok:!!a[4]}));
-    else P=basePairs(t);
-    FIXES.filter(f=>fixType(f)===t && (!TT||f.at>TT.at)).sort((a,b)=>a.at<b.at?-1:1).forEach(f=>placeFix(P,f));
-    P.sort((a,b)=>a.home-b.home);
+    const P=curPairs(t);
     DATA[t]={};
     STOPS.forEach(k=>{ DATA[t][k]={buses:P.map(p=>({m:p[k], hhmm:fmt(p[k]), b:p.b, ok:p.ok})).sort((a,b)=>a.m-b.m)}; });
   });
 }
-try{ const v=localStorage.getItem("tt5515"); if(v){ const o=JSON.parse(v); if(o.ver===BASE_VER) TT=o; } }catch(e){}
 applyFixes();
 
 const NS="http://www.w3.org/2000/svg";
@@ -319,10 +353,10 @@ function render(now){
       list.appendChild(row);
     });
   }
-  $("note").textContent="공식 운행시간표 기준이에요. B는 5515B(중간 출발 차량), ✓는 직접 확인한 시간이에요.";
+  $("note").textContent="공식 운행시간표 기준이에요. B는 5515B(대학동샘말공원 출발), ✓는 직접 확인한 시간이에요.";
 }
 function show(view){
-  ["home","settings","detail"].forEach(v=>$(v).hidden=(v!==view));
+  ["home","settings","detail","editor"].forEach(v=>$(v).hidden=(v!==view));
   document.documentElement.dataset.view=view;
 }
 function open(stop){
@@ -340,60 +374,74 @@ $("openSettings").addEventListener("click",openSettings);
 function backBtn(){ if(history.state&&history.state.v) history.back(); else goHome(); }
 $("back").addEventListener("click",backBtn);
 $("closeSettings").addEventListener("click",backBtn);
-window.addEventListener("popstate",()=>goHome());
+window.addEventListener("popstate",e=>{
+  const v=(e.state&&e.state.v)||"home";
+  if(v==="settings"){ current=null; cancelAnimationFrame(raf); delete document.documentElement.dataset.stop; renderLog(); show("settings"); }
+  else if(v==="editor"){ renderEditor(); show("editor"); }
+  else goHome();
+});
 show("home");
 
 // ---- 고친 기록 ----
 let dbRef=null;
 function saveLocal(){ try{ localStorage.setItem("fixes5515",JSON.stringify(FIXES)); }catch(e){} }
 function loadLocal(){ try{ const v=localStorage.getItem("fixes5515"); return v?JSON.parse(v):[]; }catch(e){ return []; } }
-function refresh(){ applyFixes(); renderLog(); if(current) lastSec=-1; }
+function refresh(){ applyFixes(); renderLog(); if(document.documentElement.dataset.view==="editor") renderEditor(); if(current) lastSec=-1; }
 function renderStatus(){
-  const el=$("ttStatus");
-  if(!TT){ el.textContent="아직 반영한 적이 없어요. 고친 기록이 쌓이면 \"기록 반영하기\"를 눌러주세요. 확인된 시간 사이의 추정 버스를 다시 나누고, 정류장 사이 걸리는 시간도 맞춰줘요."; return; }
-  const d=new Date(TT.at);
-  const newer=FIXES.filter(f=>f.at>TT.at).length;
-  el.textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일에 기록 "+TT.n+"개로 반영했어요."+(newer?" 그 뒤로 새 기록 "+newer+"개가 있어요.":"");
+  const man=FIXES.filter(f=>f.kind).length, obs=FIXES.filter(f=>!f.kind).length;
+  const parts=[];
+  if(man) parts.push("직접 고친 것 "+man+"개");
+  if(obs) parts.push("버스 왔어요 기록 "+obs+"개");
+  $("ttStatus").textContent = parts.length
+    ? parts.join(" · ")+"가 반영돼 있어요."
+    : "공식 운행시간표 그대로예요. 실제와 다르면 고쳐서 쓰세요.";
 }
-async function saveTT(){
-  try{ if(TT) localStorage.setItem("tt5515",JSON.stringify(TT)); else localStorage.removeItem("tt5515"); }catch(e){}
-  if(dbRef){ try{ const d=dbRef.doc("state/timetable"); if(TT) await d.set(TT); else await d.delete(); }catch(e){} }
+async function pushOp(f){
+  FIXES.push(f); saveLocal(); refresh();
+  if(dbRef){ try{ await dbRef.collection("fixes").doc(f.id).set(f); }catch(e){} }
 }
-$("recalc").addEventListener("click",async()=>{ TT=recalc(); applyFixes(); renderLog(); await saveTT(); $("ttStatus").textContent="반영했어요. 기록 "+TT.n+"개로 시간표 전체를 다시 계산했어요."; });
-$("resetTT").addEventListener("click",async()=>{ TT=null; applyFixes(); renderLog(); await saveTT(); });
+$("openEditor").addEventListener("click",openEditor);
+$("resetTT").addEventListener("click",async()=>{
+  if(FIXES.length===0){ return; }
+  if(!confirm("고친 것 "+FIXES.length+"개를 모두 지우고 공식 시간표로 되돌릴까요?")) return;
+  const old=FIXES.slice(); FIXES=[]; saveLocal(); refresh();
+  if(dbRef){ for(const f of old){ try{ await dbRef.collection("fixes").doc(f.id).delete(); }catch(e){} } }
+});
+const STOPNAME=f=>(INFO[f.stop]||{}).name||f.stop;
+function opLabel(f){
+  if(f.kind==="add") return STOPNAME(f)+"  "+fmt(f.m)+(f.b?" B":" A")+" 추가";
+  if(f.kind==="del") return STOPNAME(f)+"  "+fmt(f.om)+" 없앰";
+  if(f.kind==="set") return STOPNAME(f)+"  "+fmt(f.om)+" → "+fmt(f.m)+(f.b?" B":" A");
+  return STOPNAME(f)+"  "+fmt(f.m)+(f.b?" B":"")+" 확인";
+}
 function renderLog(){
   renderStatus();
   const box=$("log"); box.innerHTML="";
-  if(FIXES.length===0){ box.innerHTML='<p class="ssub">아직 기록이 없어요. 정류장에서 버스가 오면 시계 화면의 "지금 버스 왔어요"를 눌러주세요.</p>'; return; }
+  if(FIXES.length===0){ box.innerHTML='<p class="ssub">아직 고친 게 없어요. 정류장에서 버스가 오면 시계 화면의 "지금 버스 왔어요"를 누르거나, 위에서 시간표를 직접 고치면 여기에 쌓여요.</p>'; return; }
   FIXES.slice().sort((a,b)=>a.at<b.at?1:-1).forEach(f=>{
     const d=new Date(f.at);
     const r=document.createElement("div"); r.className="logrow";
     const info=document.createElement("div");
     const lt=document.createElement("div"); lt.className="lt";
     const tag=document.createElement("span"); tag.className="tag"; tag.style.background=(INFO[f.stop]||{}).color||"#888";
-    lt.appendChild(tag); lt.appendChild(document.createTextNode(((INFO[f.stop]||{}).name||f.stop)+"  "+fmt(f.m)+(f.b?" B":"")));
+    lt.appendChild(tag); lt.appendChild(document.createTextNode(opLabel(f)));
     const dl={wk:"평일",sat:"토요일",hol:"공휴일"}[fixType(f)];
     const ld=document.createElement("div"); ld.className="ld";
-    ld.textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일 기록 · "+dl;
+    ld.textContent=(d.getMonth()+1)+"월 "+d.getDate()+"일 · "+dl;
     info.appendChild(lt); info.appendChild(ld);
-    const del=document.createElement("button"); del.textContent="지우기";
+    const del=document.createElement("button"); del.textContent="되돌리기";
     del.addEventListener("click",()=>removeFix(f.id));
     r.appendChild(info); r.appendChild(del); box.appendChild(r);
   });
 }
 async function addFix(b){
   const now=new Date();
-  const f={id:String(now.getTime()), stop:current, day:dayType(now), m:nowMin(now), b:b, at:now.toISOString()};
-  FIXES.push(f); saveLocal(); refresh();
   $("ask").hidden=true;
-  $("toast").textContent=fmt(f.m)+(b?" B":"")+" 버스로 고쳤어요. 다른 정류장 시간도 같이 맞췄어요.";
-  if(dbRef){ try{ await dbRef.collection("fixes").doc(f.id).set(f); }catch(e){} }
+  $("toast").textContent=fmt(nowMin(now))+(b?" B":"")+" 버스로 고쳤어요. 다른 정류장 시간도 같이 맞췄어요.";
+  await pushOp({id:String(now.getTime()), stop:current, day:dayType(now), m:nowMin(now), b:b, at:now.toISOString()});
 }
 async function removeFix(id){
-  const f0=FIXES.find(f=>f.id===id);
-  FIXES=FIXES.filter(f=>f.id!==id); saveLocal();
-  if(TT && f0 && f0.at<=TT.at){ TT=recalc(); saveTT(); }
-  refresh();
+  FIXES=FIXES.filter(f=>f.id!==id); saveLocal(); refresh();
   if(dbRef){ try{ await dbRef.collection("fixes").doc(id).delete(); }catch(e){} }
 }
 $("came").addEventListener("click",()=>{
@@ -402,15 +450,149 @@ $("came").addEventListener("click",()=>{
 $("fixA").addEventListener("click",()=>addFix(false));
 $("fixB").addEventListener("click",()=>addFix(true));
 $("fixCancel").addEventListener("click",()=>{ $("ask").hidden=true; });
+
+// ---- 시간표 직접 고치기 ----
+let edStop="home", edDay="wk", edSel=null, edAdding=false;
+function openEditor(){
+  edSel=null; edAdding=false; $("edAddPanel").innerHTML=""; $("edToast").textContent="";
+  edDay=dayType(new Date()); if(current) edStop=current;
+  renderEditor(); show("editor");
+  try{ history.pushState({v:"editor"},""); }catch(e){}
+  setTimeout(jumpNow,0);
+}
+$("closeEditor").addEventListener("click",()=>{ if(history.state&&history.state.v==="editor") history.back(); else { renderLog(); show("settings"); } });
+function chips(boxId, items, cur, pick){
+  const box=$(boxId); box.innerHTML="";
+  items.forEach(([k,label])=>{
+    const b=document.createElement("button");
+    b.className="chip"; b.type="button";
+    if(INFO[k]){ const dot=document.createElement("span"); dot.className="tag"; dot.style.background=INFO[k].color; b.appendChild(dot); }
+    b.appendChild(document.createTextNode(label));
+    b.setAttribute("aria-pressed", k===cur ? "true":"false");
+    b.addEventListener("click",()=>{ pick(k); });
+    box.appendChild(b);
+  });
+}
+function timeInput(m){
+  const i=document.createElement("input");
+  i.type="time"; i.step="60"; i.value=fmt(m); i.setAttribute("aria-label","시간");
+  return i;
+}
+function readTime(input, orig){
+  const v=(input.value||"").split(":");
+  if(v.length<2) return null;
+  let m=parseInt(v[0],10)*60+parseInt(v[1],10);
+  if(isNaN(m)) return null;
+  if(orig>=1440 && m<720) m+=1440;
+  return m;
+}
+function btn(label, cls, fn){
+  const b=document.createElement("button"); b.type="button"; b.className="btn"+(cls?" "+cls:""); b.textContent=label;
+  b.addEventListener("click",fn); return b;
+}
+function editPanel(bus){
+  const wrap=document.createElement("div"); wrap.className="edpanel";
+  const note=document.createElement("p"); note.className="small";
+  note.textContent="시간을 바꾸면 같은 버스의 다른 정류장 시간도 같이 움직여요.";
+  const row=document.createElement("div"); row.className="timerow";
+  const inp=timeInput(bus.m);
+  const minus=document.createElement("button"); minus.type="button"; minus.className="step"; minus.textContent="−";
+  const plus=document.createElement("button"); plus.type="button"; plus.className="step"; plus.textContent="+";
+  const nudge=d=>{ const cur=readTime(inp,bus.m); if(cur==null) return; inp.value=fmt(cur+d); };
+  minus.addEventListener("click",()=>nudge(-1)); plus.addEventListener("click",()=>nudge(1));
+  row.appendChild(minus); row.appendChild(inp); row.appendChild(plus);
+  let isB=bus.b;
+  const abRow=document.createElement("div"); abRow.className="fixbar"; abRow.style.marginTop="0";
+  const aB=btn("기본(A)","",()=>{ isB=false; sync(); });
+  const bB=btn("B","",()=>{ isB=true; sync(); });
+  function sync(){ aB.className="btn"+(isB?"":" on"); bB.className="btn"+(isB?" on":""); }
+  sync(); abRow.appendChild(aB); abRow.appendChild(bB);
+  const act=document.createElement("div"); act.className="fixbar"; act.style.marginTop="0";
+  act.appendChild(btn("저장","primary",async()=>{
+    const m=readTime(inp,bus.m);
+    if(m==null){ $("edToast").textContent="시간을 확인해주세요."; return; }
+    if(m===bus.m && isB===bus.b){ edSel=null; renderEditor(); return; }
+    const now=new Date();
+    edSel=null;
+    $("edToast").textContent=fmt(bus.m)+" → "+fmt(m)+(isB?" B":" A")+"로 고쳤어요.";
+    await pushOp({id:String(now.getTime()), kind:"set", stop:edStop, day:edDay, om:bus.m, m:m, b:isB, at:now.toISOString()});
+  }));
+  act.appendChild(btn("취소","",()=>{ edSel=null; $("edToast").textContent=""; renderEditor(); }));
+  const del=document.createElement("div"); del.className="fixbar"; del.style.marginTop="0";
+  del.appendChild(btn("이 버스 없애기","danger",async()=>{
+    if(!confirm(fmt(bus.m)+" 버스를 시간표에서 없앨까요?")) return;
+    const now=new Date(); edSel=null;
+    $("edToast").textContent=fmt(bus.m)+" 버스를 없앴어요.";
+    await pushOp({id:String(now.getTime()), kind:"del", stop:edStop, day:edDay, om:bus.m, at:now.toISOString()});
+  }));
+  wrap.appendChild(note); wrap.appendChild(row); wrap.appendChild(abRow); wrap.appendChild(act); wrap.appendChild(del);
+  return wrap;
+}
+function addPanel(){
+  const wrap=document.createElement("div"); wrap.className="edpanel";
+  const note=document.createElement("p"); note.className="small";
+  note.textContent=INFO[edStop].name+" 기준 시각을 넣으면, 다른 정류장 시간은 걸리는 시간만큼 자동으로 잡혀요.";
+  const nowM=nowMin(new Date());
+  const row=document.createElement("div"); row.className="timerow";
+  const inp=timeInput(nowM);
+  const minus=document.createElement("button"); minus.type="button"; minus.className="step"; minus.textContent="−";
+  const plus=document.createElement("button"); plus.type="button"; plus.className="step"; plus.textContent="+";
+  const nudge=d=>{ const cur=readTime(inp,nowM); if(cur==null) return; inp.value=fmt(cur+d); };
+  minus.addEventListener("click",()=>nudge(-1)); plus.addEventListener("click",()=>nudge(1));
+  row.appendChild(minus); row.appendChild(inp); row.appendChild(plus);
+  let isB=false;
+  const abRow=document.createElement("div"); abRow.className="fixbar"; abRow.style.marginTop="0";
+  const aB=btn("기본(A)","",()=>{ isB=false; sync(); });
+  const bB=btn("B","",()=>{ isB=true; sync(); });
+  function sync(){ aB.className="btn"+(isB?"":" on"); bB.className="btn"+(isB?" on":""); }
+  sync(); abRow.appendChild(aB); abRow.appendChild(bB);
+  const act=document.createElement("div"); act.className="fixbar"; act.style.marginTop="0";
+  act.appendChild(btn("추가","primary",async()=>{
+    const m=readTime(inp,nowM);
+    if(m==null){ $("edToast").textContent="시간을 확인해주세요."; return; }
+    const now=new Date(); edAdding=false;
+    $("edToast").textContent=fmt(m)+(isB?" B":" A")+" 버스를 추가했어요.";
+    await pushOp({id:String(now.getTime()), kind:"add", stop:edStop, day:edDay, m:m, b:isB, at:now.toISOString()});
+  }));
+  act.appendChild(btn("취소","",()=>{ edAdding=false; $("edToast").textContent=""; renderEditor(); }));
+  wrap.appendChild(note); wrap.appendChild(row); wrap.appendChild(abRow); wrap.appendChild(act);
+  return wrap;
+}
+function renderEditor(){
+  chips("edStops", STOPS.map(k=>[k,INFO[k].name]), edStop, k=>{ edStop=k; edSel=null; renderEditor(); });
+  chips("edDays", [["wk","평일"],["sat","토요일"],["hol","공휴일"]], edDay, k=>{ edDay=k; edSel=null; renderEditor(); });
+  const ap=$("edAddPanel"); ap.innerHTML=""; if(edAdding) ap.appendChild(addPanel());
+  const list=$("edList"); list.innerHTML="";
+  const buses=DATA[edDay][edStop].buses;
+  buses.forEach(x=>{
+    const r=document.createElement("button");
+    r.type="button"; r.className="edrow"; r.id="edrow-"+x.m;
+    r.setAttribute("aria-expanded", edSel===x.m ? "true":"false");
+    const t=document.createElement("span"); t.className="et"; t.textContent=x.hhmm;
+    const b=document.createElement("span"); b.className="eb"; b.textContent=x.b?"B":"";
+    const c=document.createElement("span"); c.className="ec"; c.textContent=x.ok?"✓":"";
+    const z=document.createElement("span"); z.className="ez"; z.textContent="›";
+    r.appendChild(t); r.appendChild(b); r.appendChild(c); r.appendChild(z);
+    r.addEventListener("click",()=>{ edSel=(edSel===x.m?null:x.m); $("edToast").textContent=""; renderEditor(); });
+    list.appendChild(r);
+    if(edSel===x.m) list.appendChild(editPanel(x));
+  });
+}
+function jumpNow(){
+  const nm=nowMin(new Date());
+  const next=DATA[edDay][edStop].buses.find(x=>x.m>=nm) || DATA[edDay][edStop].buses[0];
+  const el=next && $("edrow-"+next.m);
+  if(el) el.scrollIntoView({block:"center"});
+}
+$("edAdd").addEventListener("click",()=>{ edAdding=!edAdding; edSel=null; $("edToast").textContent=""; renderEditor(); });
+$("edJump").addEventListener("click",jumpNow);
+
 FIXES=loadLocal(); refresh();
 (async()=>{
   try{
     if(!window.claude||!window.claude.use) return;
     const db=await window.claude.use("db"); if(!db) return;
     dbRef=db;
-    db.doc("state/timetable").onSnapshot(d=>{
-      if(d.exists){ const v=d.data(); if(v.ver===BASE_VER && (!TT||v.at>TT.at)){ TT=v; try{localStorage.setItem("tt5515",JSON.stringify(TT));}catch(e){} refresh(); } }
-    },()=>{});
     db.collection("fixes").onSnapshot(snap=>{
       const remote=snap.docs.map(d=>d.data()).filter(Boolean);
       const ids=new Set(remote.map(f=>f.id));
